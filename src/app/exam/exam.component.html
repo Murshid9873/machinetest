@@ -1,0 +1,49 @@
+
+<!-- objective 1 -->
+SELECT
+  start.id AS tripStartId,
+  end.id AS tripEndId,
+  start.imei,
+  start.speed
+FROM
+  gps_data AS start
+INNER JOIN gps_data AS end ON end.id = (
+    SELECT MIN(id)
+    FROM gps_data
+    WHERE id > start.id AND imei = start.imei AND ignition = 0
+)
+WHERE start.imei = 123 AND start.ignition = 1;
+
+
+<!-- objective 2 -->
+SELECT
+  start.id AS tripStartId,
+  end.id AS tripEndId,
+  start.imei,
+  start.speed
+FROM
+  gps_data AS start
+INNER JOIN gps_data AS end ON end.id = (
+    SELECT MIN(id)
+    FROM gps_data
+    WHERE id > start.id AND imei = start.imei AND ignition = 0
+)
+WHERE start.imei IN (123, 133) AND start.ignition = 1
+ORDER BY tripStartId;
+
+
+<!-- objective 4 -->
+SELECT
+  id,
+  imei,
+  ignition,
+  speed,
+  lat,
+  lng
+FROM
+  gps_data
+WHERE
+  imei = 123
+  AND id BETWEEN 6 AND 11
+ORDER BY
+  id;
